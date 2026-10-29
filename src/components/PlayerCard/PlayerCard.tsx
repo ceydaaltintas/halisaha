@@ -12,7 +12,7 @@ interface PlayerCardProps {
 }
 
 const SIZE_MAP = {
-  sm: { width: 140, height: 196 },
+  sm: { width: 128, height: 179 },
   md: { width: 200, height: 280 },
   lg: { width: 260, height: 364 },
 }

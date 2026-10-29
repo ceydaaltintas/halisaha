@@ -59,22 +59,22 @@ export function PlayersPage({ onGoToSetup, onGoToHistory }: PlayersPageProps) {
   return (
     <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col gap-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-white">Halı Saha Takım Dengeleyici</h1>
-        <div className="flex gap-2">
+        <h1 className="text-xl sm:text-2xl font-bold text-white">Halı Saha Takım Dengeleyici</h1>
+        <div className="flex gap-2 flex-wrap">
           <button
             onClick={() => setShowCreate(true)}
-            className="px-4 py-2 rounded-lg bg-cyan-500 text-slate-900 font-semibold"
+            className="px-4 py-2 rounded-lg bg-cyan-500 text-slate-900 font-semibold text-sm sm:text-base"
           >
             + Yeni Kart
           </button>
           <button
             onClick={onGoToSetup}
             disabled={players.length < 2}
-            className="px-4 py-2 rounded-lg bg-emerald-500 text-slate-900 font-semibold disabled:opacity-40"
+            className="px-4 py-2 rounded-lg bg-emerald-500 text-slate-900 font-semibold text-sm sm:text-base disabled:opacity-40"
           >
             Maç Kur →
           </button>
-          <button onClick={onGoToHistory} className="px-4 py-2 rounded-lg bg-white/10 text-slate-200 font-semibold">
+          <button onClick={onGoToHistory} className="px-4 py-2 rounded-lg bg-white/10 text-slate-200 font-semibold text-sm sm:text-base">
             📊 Maç Geçmişi
           </button>
         </div>

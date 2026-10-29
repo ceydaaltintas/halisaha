@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getRepository } from '@/data'
 import { APP_CONFIG } from '@/lib/config'
 import { calculateOvr, isWithinBudget, statBudgetTotal, tierForOvr } from '@/lib/ratings'
@@ -20,7 +20,20 @@ function defaultStats(): PlayerStats {
   return { pace: 50, shooting: 50, passing: 50, dribbling: 50, defending: 50, physical: 50, goalkeeping: 50 }
 }
 
+function useIsMobile(): boolean {
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth < 640)
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth < 640)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  return isMobile
+}
+
 export function PlayerCardForm({ initialPlayer, submitLabel, onSubmit, onCancel }: PlayerCardFormProps) {
+  const isMobile = useIsMobile()
   const [name, setName] = useState(initialPlayer?.name ?? '')
   const [nickname, setNickname] = useState(initialPlayer?.nickname ?? '')
   const [positions, setPositions] = useState<Position[]>(initialPlayer?.positions ?? ['OS'])
@@ -122,8 +135,8 @@ export function PlayerCardForm({ initialPlayer, submitLabel, onSubmit, onCancel 
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 items-start">
-      <div className="flex justify-center w-full lg:w-auto lg:sticky lg:top-4">
-        <PlayerCard player={previewPlayer} size="lg" />
+      <div className="sticky top-0 z-10 -mx-4 sm:-mx-6 lg:mx-0 px-4 sm:px-6 lg:px-0 pt-1 pb-3 lg:pb-0 bg-slate-900/95 backdrop-blur flex justify-center w-full lg:w-auto lg:sticky lg:top-4">
+        <PlayerCard player={previewPlayer} size={isMobile ? 'md' : 'lg'} />
       </div>
 
       <form onSubmit={handleSubmit} className="flex-1 w-full flex flex-col gap-4 text-slate-100">
