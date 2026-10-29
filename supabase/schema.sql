@@ -83,7 +83,7 @@ create or replace function public.halisaha_check_pin(
 ) returns boolean
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 declare
   v_row record;
@@ -152,7 +152,7 @@ create or replace function public.halisaha_create_player(
 ) returns public.halisaha_players_public
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 declare
   v_new_id uuid;
@@ -205,7 +205,7 @@ create or replace function public.halisaha_update_player(
 ) returns public.halisaha_players_public
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 declare
   v_result halisaha_players_public;
@@ -253,7 +253,7 @@ create or replace function public.halisaha_delete_player(
 ) returns void
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 begin
   if not public.halisaha_check_pin(p_id, p_pin) then
