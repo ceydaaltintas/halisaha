@@ -69,14 +69,14 @@ export function RecordMatchModal({ teamSize, teamA, teamB, nameA, nameB, onClose
       {step === 'stats' && (
         <div className="flex flex-col gap-4 text-slate-100">
           <h3 className="text-lg font-bold">Maç Sonucunu Kaydet</h3>
-          <div className="flex items-center justify-center gap-4 text-xl font-bold">
-            <span>{nameA}</span>
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-base sm:text-xl font-bold">
+            <span className="truncate max-w-[90px] sm:max-w-none">{nameA}</span>
             <input
               type="number"
               min={0}
               value={teamAScore}
               onChange={(e) => setTeamAScore(Math.max(0, Number(e.target.value)))}
-              className="w-16 text-center rounded-lg bg-white/10 py-1"
+              className="w-12 sm:w-16 text-center rounded-lg bg-white/10 py-1"
             />
             <span>-</span>
             <input
@@ -84,9 +84,9 @@ export function RecordMatchModal({ teamSize, teamA, teamB, nameA, nameB, onClose
               min={0}
               value={teamBScore}
               onChange={(e) => setTeamBScore(Math.max(0, Number(e.target.value)))}
-              className="w-16 text-center rounded-lg bg-white/10 py-1"
+              className="w-12 sm:w-16 text-center rounded-lg bg-white/10 py-1"
             />
-            <span>{nameB}</span>
+            <span className="truncate max-w-[90px] sm:max-w-none">{nameB}</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -85,11 +85,11 @@ export function MatchSetupPage({ onBack, onStart }: MatchSetupPageProps) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <button onClick={onBack} className="text-slate-300 hover:text-white">
+      <div className="flex items-center justify-between gap-3">
+        <button onClick={onBack} className="shrink-0 text-sm sm:text-base text-slate-300 hover:text-white">
           ← Kartlara dön
         </button>
-        <h2 className="text-xl font-bold text-white">Maç Kurulumu</h2>
+        <h2 className="text-base sm:text-xl font-bold text-white text-right">Maç Kurulumu</h2>
       </div>
 
       <section className="flex flex-col gap-3">
@@ -212,14 +212,22 @@ function ConstraintBuilder({ players, onAdd }: { players: Player[]; onAdd: (c: C
   const needsTwo = type === 'together' || type === 'apart'
 
   return (
-    <div className="flex flex-wrap items-end gap-2 bg-white/5 rounded-lg p-3">
-      <select value={type} onChange={(e) => setType(e.target.value as Constraint['type'])} className="rounded-lg bg-white/10 px-3 py-2 text-slate-100">
+    <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-end gap-2 bg-white/5 rounded-lg p-3">
+      <select
+        value={type}
+        onChange={(e) => setType(e.target.value as Constraint['type'])}
+        className="w-full sm:w-auto min-w-0 rounded-lg bg-white/10 px-3 py-2 text-slate-100"
+      >
         <option value="together">Aynı takımda olsun</option>
         <option value="apart">Ayrı takımda olsun</option>
         <option value="mustGoalkeeper">Kesin kaleci olsun</option>
         <option value="lockedTeam">Takıma sabitle</option>
       </select>
-      <select value={playerA} onChange={(e) => setPlayerA(e.target.value)} className="rounded-lg bg-white/10 px-3 py-2 text-slate-100">
+      <select
+        value={playerA}
+        onChange={(e) => setPlayerA(e.target.value)}
+        className="w-full sm:w-auto min-w-0 rounded-lg bg-white/10 px-3 py-2 text-slate-100"
+      >
         <option value="">Oyuncu seç</option>
         {players.map((p) => (
           <option key={p.id} value={p.id}>
@@ -228,7 +236,11 @@ function ConstraintBuilder({ players, onAdd }: { players: Player[]; onAdd: (c: C
         ))}
       </select>
       {needsTwo && (
-        <select value={playerB} onChange={(e) => setPlayerB(e.target.value)} className="rounded-lg bg-white/10 px-3 py-2 text-slate-100">
+        <select
+          value={playerB}
+          onChange={(e) => setPlayerB(e.target.value)}
+          className="w-full sm:w-auto min-w-0 rounded-lg bg-white/10 px-3 py-2 text-slate-100"
+        >
           <option value="">Oyuncu seç</option>
           {players.map((p) => (
             <option key={p.id} value={p.id}>
@@ -238,15 +250,19 @@ function ConstraintBuilder({ players, onAdd }: { players: Player[]; onAdd: (c: C
         </select>
       )}
       {type === 'lockedTeam' && (
-        <select value={team} onChange={(e) => setTeam(e.target.value as TeamId)} className="rounded-lg bg-white/10 px-3 py-2 text-slate-100">
+        <select
+          value={team}
+          onChange={(e) => setTeam(e.target.value as TeamId)}
+          className="w-full sm:w-auto min-w-0 rounded-lg bg-white/10 px-3 py-2 text-slate-100"
+        >
           <option value="A">Takım A</option>
           <option value="B">Takım B</option>
         </select>
       )}
-      <button onClick={handleAdd} className="px-3 py-2 rounded-lg bg-cyan-500 text-slate-900 font-semibold">
+      <button onClick={handleAdd} className="w-full sm:w-auto px-3 py-2 rounded-lg bg-cyan-500 text-slate-900 font-semibold">
         Ekle
       </button>
-      <span className="text-xs text-slate-500 w-full">
+      <span className="text-xs text-slate-500 w-full break-words">
         Pozisyonlar: {players.map((p) => `${p.name} (${POSITION_LABELS[p.mainPosition]})`).join(', ')}
       </span>
     </div>

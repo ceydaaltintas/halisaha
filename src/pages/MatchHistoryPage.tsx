@@ -45,11 +45,11 @@ export function MatchHistoryPage({ onBack }: MatchHistoryPageProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <button onClick={onBack} className="text-slate-300 hover:text-white">
+      <div className="flex items-center justify-between gap-3">
+        <button onClick={onBack} className="shrink-0 text-slate-300 hover:text-white">
           ← Geri
         </button>
-        <h2 className="text-xl font-bold text-white">Maç Geçmişi & İstatistikler</h2>
+        <h2 className="text-base sm:text-xl font-bold text-white text-right">Maç Geçmişi & İstatistikler</h2>
       </div>
 
       {loading ? (
@@ -105,10 +105,10 @@ export function MatchHistoryPage({ onBack }: MatchHistoryPageProps) {
                     <li key={m.id} className="bg-white/5 rounded-xl p-3">
                       <button
                         onClick={() => setExpandedMatchId(expanded ? null : m.id)}
-                        className="w-full flex items-center justify-between text-left"
+                        className="w-full flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-left"
                       >
                         <span className="text-sm text-slate-400">{m.date}</span>
-                        <span className="font-semibold">
+                        <span className="font-semibold text-sm sm:text-base break-words">
                           {m.teamAName} {m.teamAScore} - {m.teamBScore} {m.teamBName}
                         </span>
                         <span className="text-slate-500 text-xs">{expanded ? '▲' : '▼'}</span>

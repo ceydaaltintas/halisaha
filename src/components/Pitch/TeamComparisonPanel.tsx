@@ -32,11 +32,15 @@ export function TeamComparisonPanel({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white/5 rounded-2xl p-4">
       <div className="flex flex-col gap-3">
-        <div className="flex justify-between text-sm font-semibold">
-          <span style={{ color: colorA }}>{nameA}</span>
-          <span style={{ color: colorB }}>{nameB}</span>
+        <div className="flex justify-between gap-2 text-sm font-semibold">
+          <span className="truncate" style={{ color: colorA }}>
+            {nameA}
+          </span>
+          <span className="truncate text-right" style={{ color: colorB }}>
+            {nameB}
+          </span>
         </div>
-        <div className="flex justify-between text-xs text-slate-400">
+        <div className="flex justify-between gap-2 text-xs text-slate-400">
           <span>
             Toplam {teamA.totalRating} · Ort. OVR {avgOvrA}
           </span>

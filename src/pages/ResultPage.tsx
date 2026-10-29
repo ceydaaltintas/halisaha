@@ -179,11 +179,11 @@ export function ResultPage({ setup, onBack }: ResultPageProps) {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6 flex flex-col gap-5">
-      <div className="flex items-center justify-between">
-        <button onClick={onBack} className="text-slate-300 hover:text-white">
+      <div className="flex items-center justify-between gap-3">
+        <button onClick={onBack} className="shrink-0 text-sm sm:text-base text-slate-300 hover:text-white">
           ← Kurulumu değiştir
         </button>
-        <h2 className="text-xl font-bold text-white">Takımlar</h2>
+        <h2 className="text-base sm:text-xl font-bold text-white text-right">Takımlar</h2>
       </div>
 
       {warnings.map((w) => (
