@@ -276,11 +276,13 @@ on conflict (id) do nothing;
 
 -- Herkes okuyabilsin (public bucket), herkes yükleyebilsin (login olmadığı için).
 -- İstersen burayı daha sıkı hale getirebilirsin (örn. yalnızca belirli bir boyut/tip).
-create policy if not exists "halisaha_avatars_public_read"
+drop policy if exists "halisaha_avatars_public_read" on storage.objects;
+create policy "halisaha_avatars_public_read"
   on storage.objects for select
   using (bucket_id = 'halisaha-avatars');
 
-create policy if not exists "halisaha_avatars_anon_upload"
+drop policy if exists "halisaha_avatars_anon_upload" on storage.objects;
+create policy "halisaha_avatars_anon_upload"
   on storage.objects for insert
   with check (bucket_id = 'halisaha-avatars');
 
@@ -327,15 +329,22 @@ alter table public.halisaha_match_ratings enable row level security;
 -- Herkes okuyabilsin ve yeni kayıt ekleyebilsin; geçmiş kayıtları güncelleme/
 -- silme politikası kasıtlı olarak YOK (yanlış girilen maçlar için doğrudan
 -- SQL Editör'den düzeltme yapılabilir).
-create policy if not exists "halisaha_matches_select" on public.halisaha_matches for select using (true);
-create policy if not exists "halisaha_matches_insert" on public.halisaha_matches for insert with check (true);
+drop policy if exists "halisaha_matches_select" on public.halisaha_matches;
+create policy "halisaha_matches_select" on public.halisaha_matches for select using (true);
+drop policy if exists "halisaha_matches_insert" on public.halisaha_matches;
+create policy "halisaha_matches_insert" on public.halisaha_matches for insert with check (true);
 
-create policy if not exists "halisaha_match_stats_select" on public.halisaha_match_player_stats for select using (true);
-create policy if not exists "halisaha_match_stats_insert" on public.halisaha_match_player_stats for insert with check (true);
+drop policy if exists "halisaha_match_stats_select" on public.halisaha_match_player_stats;
+create policy "halisaha_match_stats_select" on public.halisaha_match_player_stats for select using (true);
+drop policy if exists "halisaha_match_stats_insert" on public.halisaha_match_player_stats;
+create policy "halisaha_match_stats_insert" on public.halisaha_match_player_stats for insert with check (true);
 
-create policy if not exists "halisaha_match_ratings_select" on public.halisaha_match_ratings for select using (true);
-create policy if not exists "halisaha_match_ratings_insert" on public.halisaha_match_ratings for insert with check (true);
-create policy if not exists "halisaha_match_ratings_update" on public.halisaha_match_ratings for update using (true);
+drop policy if exists "halisaha_match_ratings_select" on public.halisaha_match_ratings;
+create policy "halisaha_match_ratings_select" on public.halisaha_match_ratings for select using (true);
+drop policy if exists "halisaha_match_ratings_insert" on public.halisaha_match_ratings;
+create policy "halisaha_match_ratings_insert" on public.halisaha_match_ratings for insert with check (true);
+drop policy if exists "halisaha_match_ratings_update" on public.halisaha_match_ratings;
+create policy "halisaha_match_ratings_update" on public.halisaha_match_ratings for update using (true);
 
 grant select, insert on public.halisaha_matches to anon, authenticated;
 grant select, insert on public.halisaha_match_player_stats to anon, authenticated;
