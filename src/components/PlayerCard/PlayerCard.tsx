@@ -26,6 +26,10 @@ export function PlayerCard({ player, size = 'md', onClick, selected }: PlayerCar
   const dims = SIZE_MAP[size]
 
   function handleMove(e: React.PointerEvent<HTMLButtonElement>) {
+    // Tilt efekti sadece fare (hover) içindir. Dokunmatik ekranlarda
+    // "pointerleave" güvenilir tetiklenmediği için kart dokunma sonrası
+    // eğik takılı kalabiliyor, bu yüzden touch/pen için efekti uygulamıyoruz.
+    if (e.pointerType !== 'mouse') return
     const el = ref.current
     if (!el) return
     const rect = el.getBoundingClientRect()
@@ -34,7 +38,7 @@ export function PlayerCard({ player, size = 'md', onClick, selected }: PlayerCar
     setTilt({ rx: (py - 0.5) * -14, ry: (px - 0.5) * 14 })
   }
 
-  function handleLeave() {
+  function resetTilt() {
     setTilt({ rx: 0, ry: 0 })
   }
 
@@ -44,7 +48,9 @@ export function PlayerCard({ player, size = 'md', onClick, selected }: PlayerCar
       type="button"
       onClick={onClick}
       onPointerMove={handleMove}
-      onPointerLeave={handleLeave}
+      onPointerLeave={resetTilt}
+      onPointerUp={resetTilt}
+      onPointerCancel={resetTilt}
       className="relative select-none text-left rounded-2xl overflow-hidden transition-transform duration-150 ease-out flex flex-col"
       style={{
         width: dims.width,
