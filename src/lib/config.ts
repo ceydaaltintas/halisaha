@@ -2,7 +2,7 @@
 export const APP_CONFIG = {
   // 6 ana statın (HIZ, ŞUT, PAS, DRİ, DEF, FİZ) toplamı bu değeri aşamaz.
   // Oyuncuların kendini şişirmesini sınırlamak için bir "bütçe" mekanizması.
-  statBudget: 420,
+  statBudget: 450,
   // Kaleci puanı bütçeye dahil değil, kendi sınırı var.
   goalkeepingMax: 99,
   minStat: 1,
