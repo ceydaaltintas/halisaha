@@ -295,13 +295,18 @@ create policy "halisaha_avatars_anon_upload"
 create table if not exists public.halisaha_matches (
   id uuid primary key default gen_random_uuid(),
   date date not null,
-  team_size integer not null check (team_size in (5, 6, 7, 8)),
+  team_size integer not null check (team_size between 3 and 11),
   team_a_name text not null default 'Kırmızı',
   team_b_name text not null default 'Mavi',
   team_a_score integer not null check (team_a_score >= 0),
   team_b_score integer not null check (team_b_score >= 0),
   created_at timestamptz not null default now()
 );
+
+-- Tablo daha önce oluşturulmuş olabileceğinden (team_size in (5,6,7,8) ile),
+-- bu dosya tekrar çalıştırıldığında kısıtı 3-11 aralığına genişletir.
+alter table public.halisaha_matches drop constraint if exists halisaha_matches_team_size_check;
+alter table public.halisaha_matches add constraint halisaha_matches_team_size_check check (team_size between 3 and 11);
 
 create table if not exists public.halisaha_match_player_stats (
   match_id uuid not null references public.halisaha_matches(id) on delete cascade,

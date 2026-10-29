@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getRepository } from '@/data'
-import { FORMATIONS, type TeamSize } from '@/lib/formations'
+import { getFormationsForTeamSize, type TeamSize } from '@/lib/formations'
 import { MatchHistoryPage } from '@/pages/MatchHistoryPage'
 import { MatchSetupPage, type MatchSetup } from '@/pages/MatchSetupPage'
 import { PlayersPage } from '@/pages/PlayersPage'
@@ -41,7 +41,7 @@ function App() {
       .list()
       .then((all) => {
         const players = all.filter((p) => payload.players.includes(p.id))
-        const formation = FORMATIONS[payload.teamSize]?.find((f) => f.id === payload.formation)
+        const formation = getFormationsForTeamSize(payload.teamSize).find((f) => f.id === payload.formation)
         if (players.length === payload.teamSize * 2 && formation) {
           setSetup({ players, teamSize: payload.teamSize, formation, constraints: [] })
           setView('result')

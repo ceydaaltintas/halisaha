@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { PlayerCard } from '@/components/PlayerCard/PlayerCard'
 import { getRepository } from '@/data'
 import type { Constraint, TeamId } from '@/lib/balancer'
-import { FORMATIONS, type Formation, type TeamSize } from '@/lib/formations'
+import { getFormationsForTeamSize, MAX_TEAM_SIZE, MIN_TEAM_SIZE, type Formation, type TeamSize } from '@/lib/formations'
 import { withRatings } from '@/lib/ratings'
 import { POSITION_LABELS } from '@/types/player'
 import type { Player } from '@/types/player'
@@ -25,7 +25,8 @@ export function MatchSetupPage({ onBack, onStart }: MatchSetupPageProps) {
   const [players, setPlayers] = useState<Player[]>([])
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [teamSize, setTeamSize] = useState<TeamSize>(5)
-  const [formationId, setFormationId] = useState(FORMATIONS[5][0].id)
+  const [customSize, setCustomSize] = useState(false)
+  const [formationId, setFormationId] = useState(getFormationsForTeamSize(5)[0].id)
   const [constraints, setConstraints] = useState<Constraint[]>([])
   const [benchPlayerId, setBenchPlayerId] = useState<string | null>(null)
 
@@ -36,7 +37,7 @@ export function MatchSetupPage({ onBack, onStart }: MatchSetupPageProps) {
       .catch(() => setPlayers([]))
   }, [])
 
-  const formationOptions = FORMATIONS[teamSize]
+  const formationOptions = getFormationsForTeamSize(teamSize)
   const formation = formationOptions.find((f) => f.id === formationId) ?? formationOptions[0]
 
   const selectedPlayers = useMemo(
@@ -52,7 +53,14 @@ export function MatchSetupPage({ onBack, onStart }: MatchSetupPageProps) {
 
   function toggleTeamSize(size: TeamSize) {
     setTeamSize(size)
-    setFormationId(FORMATIONS[size][0].id)
+    setCustomSize(false)
+    setFormationId(getFormationsForTeamSize(size)[0].id)
+  }
+
+  function handleCustomSizeChange(value: number) {
+    const clamped = Math.min(MAX_TEAM_SIZE, Math.max(MIN_TEAM_SIZE, value))
+    setTeamSize(clamped)
+    setFormationId(getFormationsForTeamSize(clamped)[0].id)
   }
 
   function togglePlayer(id: string) {
@@ -109,16 +117,37 @@ export function MatchSetupPage({ onBack, onStart }: MatchSetupPageProps) {
 
       <section className="flex flex-col gap-3">
         <h3 className="text-slate-200 font-semibold">2. Takım büyüklüğü</h3>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap items-center">
           {TEAM_SIZES.map((size) => (
             <button
               key={size}
               onClick={() => toggleTeamSize(size)}
-              className={`px-4 py-2 rounded-lg border ${teamSize === size ? 'bg-cyan-500 border-cyan-400 text-slate-900 font-semibold' : 'bg-white/5 border-white/15 text-slate-300'}`}
+              className={`px-4 py-2 rounded-lg border ${!customSize && teamSize === size ? 'bg-cyan-500 border-cyan-400 text-slate-900 font-semibold' : 'bg-white/5 border-white/15 text-slate-300'}`}
             >
               {size}v{size}
             </button>
           ))}
+          <button
+            onClick={() => setCustomSize(true)}
+            className={`px-4 py-2 rounded-lg border ${customSize ? 'bg-cyan-500 border-cyan-400 text-slate-900 font-semibold' : 'bg-white/5 border-white/15 text-slate-300'}`}
+          >
+            Özel
+          </button>
+          {customSize && (
+            <label className="flex items-center gap-2 text-sm text-slate-300">
+              <input
+                type="number"
+                min={MIN_TEAM_SIZE}
+                max={MAX_TEAM_SIZE}
+                value={teamSize}
+                onChange={(e) => handleCustomSizeChange(Number(e.target.value))}
+                className="w-16 rounded-lg bg-white/10 px-2 py-2 text-center text-slate-100 outline-none focus:ring-2 focus:ring-cyan-400"
+              />
+              <span>
+                v{teamSize} ({MIN_TEAM_SIZE}-{MAX_TEAM_SIZE} arası)
+              </span>
+            </label>
+          )}
         </div>
 
         {diff !== 0 && (
